@@ -10,7 +10,7 @@ If a build dependency is missing it will be pulled from the meson WrapDB.
 
 ### Build ###
 ```sh
-meson build
+meson setup build
 meson compile -C build
 ```
 
