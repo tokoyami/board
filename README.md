@@ -15,6 +15,6 @@ meson compile -C build
 ```
 
 ### Key bindings ###
-q - quit the application
-n - next image
-p - previous image
+- q - quit the application
+- n - next image
+- p - previous image
