@@ -26,34 +26,39 @@
 // Command format:
 // board [-option, ...] -- [filename, *]
 
-void exec_loop(Board::Window *aWindow)
+void handle_keypress(Board::Window *const aWindow, const SDL_Event &aEvent)
+{
+    switch (aEvent.key.keysym.scancode) {
+        case SDL_SCANCODE_N:
+            aWindow->show_next();
+            break;
+        case SDL_SCANCODE_P:
+            aWindow->show_prev();
+            break;
+        case SDL_SCANCODE_Q:
+        {
+            SDL_Event event {
+                .quit = SDL_QuitEvent {
+                    .type = SDL_QUIT,
+                    .timestamp = 0,
+                }
+            };
+            SDL_PushEvent(&event);
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+void exec_loop(Board::Window *const aWindow)
 {
     for (auto run_loop = true; run_loop;) {
         SDL_Event e;
         if (SDL_WaitEvent(&e)) {
             switch (e.type) {
                 case SDL_KEYUP:
-                    switch (e.key.keysym.scancode) {
-                        case SDL_SCANCODE_N:
-                            aWindow->show_next();
-                            break;
-                        case SDL_SCANCODE_P:
-                            aWindow->show_prev();
-                            break;
-                        case SDL_SCANCODE_Q:
-                        {
-                            SDL_Event event {
-                                .quit = SDL_QuitEvent {
-                                    .type = SDL_QUIT,
-                                    .timestamp = 0,
-                                }
-                            };
-                            SDL_PushEvent(&event);
-                            break;
-                        }
-                        default:
-                            break;
-                    }
+                    handle_keypress(aWindow, e);
                     break;
                 case SDL_RENDER_TARGETS_RESET:
                 case SDL_RENDER_DEVICE_RESET:
