@@ -26,9 +26,9 @@
 // Command format:
 // board [-option, ...] -- [filename, *]
 
-void handle_keypress(Board::Window *const aWindow, const SDL_Event &aEvent)
+void handle_keypress(Board::Window *const aWindow, const SDL_KeyboardEvent &aEvent)
 {
-    switch (aEvent.key.keysym.scancode) {
+    switch (aEvent.keysym.scancode) {
         case SDL_SCANCODE_N:
             aWindow->show_next();
             break;
@@ -58,7 +58,7 @@ void exec_loop(Board::Window *const aWindow)
         if (SDL_WaitEvent(&e)) {
             switch (e.type) {
                 case SDL_KEYUP:
-                    handle_keypress(aWindow, e);
+                    handle_keypress(aWindow, e.key);
                     break;
                 case SDL_RENDER_TARGETS_RESET:
                 case SDL_RENDER_DEVICE_RESET:
