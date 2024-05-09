@@ -51,6 +51,29 @@ void handle_keypress(Board::Window *const aWindow, const SDL_KeyboardEvent &aEve
     }
 }
 
+void handle_window_event(Board::Window *const aWindow, const SDL_WindowEvent &aEvent)
+{
+    switch (aEvent.event) {
+        case SDL_WINDOWEVENT_EXPOSED:
+        case SDL_WINDOWEVENT_RESIZED:
+            aWindow->update();
+            break;
+        case SDL_WINDOWEVENT_CLOSE:
+        {
+            SDL_Event event {
+                .quit = SDL_QuitEvent {
+                    .type = SDL_QUIT,
+                    .timestamp = 0,
+                }
+            };
+            SDL_PushEvent(&event);
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 void exec_loop(Board::Window *const aWindow)
 {
     for (auto run_loop = true; run_loop;) {
@@ -63,6 +86,9 @@ void exec_loop(Board::Window *const aWindow)
                 case SDL_RENDER_TARGETS_RESET:
                 case SDL_RENDER_DEVICE_RESET:
                     aWindow->update();
+                    break;
+                case SDL_WINDOWEVENT:
+                    handle_window_event(aWindow, e.window);
                     break;
                 case SDL_QUIT:
                     run_loop = false;
