@@ -4,7 +4,7 @@
 - meson >= 1.0
 - SDL2 >= 2.28.5
 - SDL2_Image >= 2.6.3
-- argparse == 2.9
+- argparse >= 2.9
 
 If a build dependency is missing it will be pulled from the meson WrapDB.
 
