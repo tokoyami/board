@@ -14,6 +14,12 @@ meson setup build
 meson compile -C build
 ```
 
+To force using the dependencies only from WrapDB use:
+```sh
+meson setup --wrap-mode=forcefallback build
+```
+to setup the build directory.
+
 ### Key bindings ###
 - q - quit the application
 - n - next image
