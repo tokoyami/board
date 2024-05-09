@@ -9,8 +9,8 @@ sdl = dependency('sdl2', allow_fallback : true)
 sdl_image = dependency('sdl2_image', allow_fallback : true)
 
 sources = [
-  'window.cpp', 'window.h',
-  'manager.cpp', 'manager.h',
+  'window.cpp', 'window.hpp',
+  'manager.cpp', 'manager.hpp',
   'main.cpp'
 ]
 

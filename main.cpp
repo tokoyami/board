@@ -20,8 +20,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-#include "manager.h"
-#include "window.h"
+#include "manager.hpp"
+#include "window.hpp"
 
 // Command format:
 // board [-option, ...] -- [filename, *]

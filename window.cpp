@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "window.h"
+#include "window.hpp"
 
 #include <cstdio>
 
 #include <SDL_image.h>
 
-#include "manager.h"
+#include "manager.hpp"
 
 namespace Board {
 
