@@ -15,6 +15,8 @@
 #include "window.hpp"
 
 #include <cstdio>
+#include <cmath>
+#include <algorithm>
 
 #include <SDL_image.h>
 
@@ -73,7 +75,30 @@ void Window::update()
     }
 
     if (mImage) {
-        if (SDL_RenderCopy(mRenderer.get(), mImage.get(), NULL, NULL) < 0) {
+        int image_width = 0;
+        int image_height = 0;
+        if (SDL_QueryTexture(mImage.get(), NULL, NULL, &image_width, &image_height) < 0) {
+            std::printf("%s: error\n%s\n", __func__, SDL_GetError());
+            return;
+        }
+
+        int output_width = 0;
+        int output_height = 0;
+        if (SDL_GetRendererOutputSize(mRenderer.get(), &output_width, &output_height) < 0) {
+            std::printf("%s: error\n%s\n", __func__, SDL_GetError());
+            return;
+        }
+
+        const auto scale_width = double(output_width) / double(image_width);
+        const auto scale_height = double(output_height) / double(image_height);
+        const auto scale = std::min(scale_width, scale_height);
+        auto dst_rect = SDL_Rect {};
+        dst_rect.w = static_cast<int>(std::round(image_width * scale));
+        dst_rect.h = static_cast<int>(std::round(image_height * scale));
+        dst_rect.x = (output_width - dst_rect.w) / 2;
+        dst_rect.y = (output_height - dst_rect.h) / 2;
+
+        if (SDL_RenderCopy(mRenderer.get(), mImage.get(), NULL, &dst_rect) < 0) {
             std::printf("%s: error\n%s\n", __func__, SDL_GetError());
             return;
         }
