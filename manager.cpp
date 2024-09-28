@@ -20,7 +20,7 @@ namespace Board {
 
 namespace fs = std::filesystem;
 
-Manager::Manager(std::vector<std::string> aPaths):
+Manager::Manager(std::vector<std::string> aPaths) :
     mPathIndex(0),
     mFiles()
 {

@@ -24,8 +24,7 @@ namespace Board {
 
 class Manager;
 
-class Window
-{
+class Window {
 public:
     explicit Window(Manager *const aManager);
 

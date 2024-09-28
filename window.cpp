@@ -24,7 +24,7 @@
 
 namespace Board {
 
-Window::Window(Manager *const aManager):
+Window::Window(Manager *const aManager) :
     mManager(aManager),
     mWindow(nullptr, SDL_DestroyWindow),
     mRenderer(nullptr, SDL_DestroyRenderer),
@@ -52,7 +52,7 @@ Window::Window(Manager *const aManager):
 void Window::update()
 {
     if (auto currImg = mManager->current_path()) {
-        auto surface = std::unique_ptr<SDL_Surface, void (*)(SDL_Surface*)>(
+        auto surface = std::unique_ptr<SDL_Surface, void (*)(SDL_Surface *)>(
             IMG_Load(currImg->c_str()), SDL_FreeSurface);
         if (!surface) {
             std::printf("IMG_Load error:\n%s\n", IMG_GetError());
@@ -140,8 +140,7 @@ void Window::handle_keypress(const SDL_KeyboardEvent &aEvent)
         case SDL_SCANCODE_P:
             show_prev();
             break;
-        case SDL_SCANCODE_Q:
-        {
+        case SDL_SCANCODE_Q: {
             SDL_Event event {
                 .quit = SDL_QuitEvent {
                     .type = SDL_QUIT,
@@ -163,8 +162,7 @@ void Window::handle_window_event(const SDL_WindowEvent &aEvent)
         case SDL_WINDOWEVENT_RESIZED:
             update();
             break;
-        case SDL_WINDOWEVENT_CLOSE:
-        {
+        case SDL_WINDOWEVENT_CLOSE: {
             SDL_Event event {
                 .quit = SDL_QuitEvent {
                     .type = SDL_QUIT,
