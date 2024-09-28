@@ -61,7 +61,7 @@ int main(int argc, char **argv)
         auto manager = Board::Manager(files);
         auto w = Board::Window(&manager);
         w.show();
-    } catch (std::exception &ex) {
+    } catch (const std::exception &ex) {
         std::printf("%s\n", ex.what());
         rv = 1;
     }
