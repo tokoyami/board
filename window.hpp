@@ -29,10 +29,15 @@ class Window
 public:
     explicit Window(Manager *const aManager);
 
-    void update();
     void show();
+
+private:
+    void update();
     void show_next();
     void show_prev();
+    void handle_keypress(const SDL_KeyboardEvent &aEvent);
+    void handle_window_event(const SDL_WindowEvent &aEvent);
+    void exec_loop();
 
 private:
     Manager *const mManager;

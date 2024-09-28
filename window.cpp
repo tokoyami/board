@@ -116,6 +116,7 @@ void Window::show()
 {
     SDL_ShowWindow(mWindow.get());
     update();
+    exec_loop();
 }
 
 void Window::show_next()
@@ -128,6 +129,80 @@ void Window::show_prev()
 {
     mManager->prev_path();
     update();
+}
+
+void Window::handle_keypress(const SDL_KeyboardEvent &aEvent)
+{
+    switch (aEvent.keysym.scancode) {
+        case SDL_SCANCODE_N:
+            show_next();
+            break;
+        case SDL_SCANCODE_P:
+            show_prev();
+            break;
+        case SDL_SCANCODE_Q:
+        {
+            SDL_Event event {
+                .quit = SDL_QuitEvent {
+                    .type = SDL_QUIT,
+                    .timestamp = 0,
+                }
+            };
+            SDL_PushEvent(&event);
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+void Window::handle_window_event(const SDL_WindowEvent &aEvent)
+{
+    switch (aEvent.event) {
+        case SDL_WINDOWEVENT_EXPOSED:
+        case SDL_WINDOWEVENT_RESIZED:
+            update();
+            break;
+        case SDL_WINDOWEVENT_CLOSE:
+        {
+            SDL_Event event {
+                .quit = SDL_QuitEvent {
+                    .type = SDL_QUIT,
+                    .timestamp = 0,
+                }
+            };
+            SDL_PushEvent(&event);
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+void Window::exec_loop()
+{
+    for (auto run_loop = true; run_loop;) {
+        SDL_Event e;
+        if (SDL_WaitEvent(&e)) {
+            switch (e.type) {
+                case SDL_KEYUP:
+                    handle_keypress(e.key);
+                    break;
+                case SDL_RENDER_TARGETS_RESET:
+                case SDL_RENDER_DEVICE_RESET:
+                    update();
+                    break;
+                case SDL_WINDOWEVENT:
+                    handle_window_event(e.window);
+                    break;
+                case SDL_QUIT:
+                    run_loop = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 } // namespace Board

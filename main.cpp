@@ -26,80 +26,6 @@
 // Command format:
 // board [-option, ...] -- [filename, *]
 
-void handle_keypress(Board::Window *const aWindow, const SDL_KeyboardEvent &aEvent)
-{
-    switch (aEvent.keysym.scancode) {
-        case SDL_SCANCODE_N:
-            aWindow->show_next();
-            break;
-        case SDL_SCANCODE_P:
-            aWindow->show_prev();
-            break;
-        case SDL_SCANCODE_Q:
-        {
-            SDL_Event event {
-                .quit = SDL_QuitEvent {
-                    .type = SDL_QUIT,
-                    .timestamp = 0,
-                }
-            };
-            SDL_PushEvent(&event);
-            break;
-        }
-        default:
-            break;
-    }
-}
-
-void handle_window_event(Board::Window *const aWindow, const SDL_WindowEvent &aEvent)
-{
-    switch (aEvent.event) {
-        case SDL_WINDOWEVENT_EXPOSED:
-        case SDL_WINDOWEVENT_RESIZED:
-            aWindow->update();
-            break;
-        case SDL_WINDOWEVENT_CLOSE:
-        {
-            SDL_Event event {
-                .quit = SDL_QuitEvent {
-                    .type = SDL_QUIT,
-                    .timestamp = 0,
-                }
-            };
-            SDL_PushEvent(&event);
-            break;
-        }
-        default:
-            break;
-    }
-}
-
-void exec_loop(Board::Window *const aWindow)
-{
-    for (auto run_loop = true; run_loop;) {
-        SDL_Event e;
-        if (SDL_WaitEvent(&e)) {
-            switch (e.type) {
-                case SDL_KEYUP:
-                    handle_keypress(aWindow, e.key);
-                    break;
-                case SDL_RENDER_TARGETS_RESET:
-                case SDL_RENDER_DEVICE_RESET:
-                    aWindow->update();
-                    break;
-                case SDL_WINDOWEVENT:
-                    handle_window_event(aWindow, e.window);
-                    break;
-                case SDL_QUIT:
-                    run_loop = false;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-}
-
 int main(int argc, char **argv)
 {
     // Initialise SDL
@@ -135,8 +61,6 @@ int main(int argc, char **argv)
         auto manager = Board::Manager(files);
         auto w = Board::Window(&manager);
         w.show();
-
-        exec_loop(&w);
     } catch (std::exception &ex) {
         std::printf("%s\n", ex.what());
         rv = 1;
