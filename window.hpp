@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BOARD_WINDOW_H
-#define BOARD_WINDOW_H
+#ifndef BOARD_WINDOW_HPP
+#define BOARD_WINDOW_HPP
 
 #include <memory>
 
@@ -47,4 +47,4 @@ private:
 
 } // namespace Board
 
-#endif // BOARD_WINDOW_H
+#endif // BOARD_WINDOW_HPP

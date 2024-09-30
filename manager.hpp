@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BOARD_MANAGER_H
-#define BOARD_MANAGER_H
+#ifndef BOARD_MANAGER_HPP
+#define BOARD_MANAGER_HPP
 
 #include <string>
 #include <vector>
@@ -43,4 +43,4 @@ private:
 
 } // namespace Board
 
-#endif // BOARD_MANAGER_H
+#endif // BOARD_MANAGER_HPP
